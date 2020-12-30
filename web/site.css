@@ -1,5 +1,5 @@
 .title {
-    margin: 20px auto 12px;
+    margin: 12px auto 12px;
     max-width: 550px; /*match twitter-tweet*/
 }
 
@@ -44,3 +44,26 @@
     margin:auto;
 }
 
+/*panel*/
+.panel {
+    height: 24px;
+    background: #eee;
+    text-align: center;
+    width: 100%;
+    max-width: 550px;
+}
+
+.panel-item {
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+/*wtf*/
+
+.wtf {
+    max-width: 550px;
+    margin: auto;
+    text-indent: 2em;
+    text-align: justify;
+    text-justify: inter-word;
+}

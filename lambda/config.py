@@ -4,7 +4,7 @@ import os
 def __config(name: str, default_value: str = None):
     var = os.environ.get(name) or default_value
     if var is None:
-        raise EnvironmentError(f'{var} is not configured')
+        raise EnvironmentError(f'{name} is not configured')
 
     return var
 
@@ -16,6 +16,8 @@ TWITTER_API_TOKEN = __config('TWITTER_API_TOKEN')
 TWEET_SEARCH_QUERY = __config('TWEET_SEARCH_QUERY', __DEFAULT_TWEET_SEARCH_QUERY)
 TWITTER_API_RECENT_TWEETS_URL = __config('TWITTER_API_RECENT_TWEETS_URL', 'https://api.twitter.com/2/tweets/search/recent')
 MAX_TWEETS = int(__config('MAX_TWEETS', '50'))
+
+BUCKET_NAME = __config('BUCKET_NAME')
 
 if len(TWEET_SEARCH_QUERY) > __MAX_TWEET_SEARCH_QUERY_CHARS:
     raise EnvironmentError(f'TWEET_SEARCH_QUERY configured is {len(TWEET_SEARCH_QUERY)} characters long, which is '

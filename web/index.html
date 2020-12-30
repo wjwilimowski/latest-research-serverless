@@ -73,6 +73,7 @@
 
             return $.ajax({
                 url: 'data.json',
+                dataType: 'json',
                 success: data => {
                     data.tweets.forEach(tweet => {
                         const element = create_tweet_element(carouselItems, tweet);

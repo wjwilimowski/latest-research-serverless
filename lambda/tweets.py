@@ -9,7 +9,7 @@ __headers = {"Authorization": f"Bearer {config.TWITTER_API_TOKEN}"}
 
 def get_updated_tweets(data: dict) -> dict:
     since_id = data.get('since_id')
-    existing_tweets = data.get('tweets')
+    existing_tweets = data.get('tweets') or []
 
     new_tweet_ids = __get_tweet_ids(since_id)
 
@@ -17,8 +17,12 @@ def get_updated_tweets(data: dict) -> dict:
         since_id = new_tweet_ids[0]
 
     tweets = __get_updated_tweets_list(new_tweet_ids, existing_tweets)
+    result = {
+        'since_id': since_id,
+        'tweets': tweets
+    }
 
-    return { since_id, tweets}
+    return result
 
 
 def __get_updated_tweets_list(new_tweets, existing_tweets):
@@ -58,7 +62,11 @@ def __get_part_tweet_ids(since_id, next_token) -> (list, str):
         return None, None
 
     response = r.json()
-    tweet_ids = [tweet['id'] for tweet in response['data']]
+
+    print(response)
+
+    data = response.get('data') or []
+    tweet_ids = [tweet['id'] for tweet in data]
     next_next_token = __read_next_token(response.get('meta'))
 
     return tweet_ids, next_next_token

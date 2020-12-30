@@ -18,8 +18,7 @@ TWITTER_API_RECENT_TWEETS_URL = __config('TWITTER_API_RECENT_TWEETS_URL', 'https
 MAX_TWEETS = int(__config('MAX_TWEETS', '50'))
 
 BUCKET_NAME = __config('BUCKET_NAME')
-
-LOG_LEVEL = __config('LOG_LEVEL', )
+S3_PATH = __config('S3_PATH', 'data.json')
 
 if len(TWEET_SEARCH_QUERY) > __MAX_TWEET_SEARCH_QUERY_CHARS:
     raise EnvironmentError(f'TWEET_SEARCH_QUERY configured is {len(TWEET_SEARCH_QUERY)} characters long, which is '

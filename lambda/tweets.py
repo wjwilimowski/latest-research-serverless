@@ -2,7 +2,7 @@ import config
 import requests
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger()
 
 __headers = {"Authorization": f"Bearer {config.TWITTER_API_TOKEN}"}
 
@@ -15,6 +15,8 @@ def get_updated_tweets(since_id: str, existing_tweets: list) -> (str, list):
         since_id = new_tweet_ids[0]
 
     tweets = __get_updated_tweets_list(new_tweet_ids, existing_tweets)
+
+    logger.info(f'number new tweets: {len(new_tweet_ids)}, since_id: {since_id}')
 
     return since_id, tweets
 
@@ -56,8 +58,6 @@ def __get_part_tweet_ids(since_id, next_token) -> (list, str):
         return None, None
 
     response = r.json()
-
-    print(response)
 
     data = response.get('data') or []
     tweet_ids = [tweet['id'] for tweet in data]

@@ -30,8 +30,18 @@
         <!--tweets carousel-->
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6 col-12 centered">
-                <div class="carousel slide carousel-fade" data-ride="carousel" id="tweetsCarousel" data-interval="5000">
-                    <div class="carousel-inner" id="carouselItems"></div>
+                <div class="carousel slide carousel-fade" id="tweetsCarousel" data-interval="5000" data-ride="carousel">
+                    <div class="carousel-inner" id="carouselItems">
+
+                        <div class="carousel-item active" id="carouselLoading">
+                            <div class="loading-card">
+                                <div class="loading-card-content">
+                                    <div class="lds-dual-ring"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -80,7 +90,6 @@
 
                         carouselItems.append(element)
                     });
-                    $(".carousel-item").first().addClass("active");
                 },
                 error: e => console.error(e)
             });
@@ -90,6 +99,11 @@
             load_twttr();
             load_data();
         }
+
+        $("#tweetsCarousel").on('slide.bs.carousel', e => {
+            $("#tweetsCarousel").off('slide.bs.carousel');
+            $("#carouselLoading").remove();
+        });
 
         window.onload = init;
     </script>

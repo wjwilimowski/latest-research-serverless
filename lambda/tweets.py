@@ -7,9 +7,7 @@ logger = logging.getLogger(__name__)
 __headers = {"Authorization": f"Bearer {config.TWITTER_API_TOKEN}"}
 
 
-def get_updated_tweets(data: dict) -> dict:
-    since_id = data.get('since_id')
-    existing_tweets = data.get('tweets') or []
+def get_updated_tweets(since_id: str, existing_tweets: list) -> (str, list):
 
     new_tweet_ids = __get_tweet_ids(since_id)
 
@@ -17,12 +15,8 @@ def get_updated_tweets(data: dict) -> dict:
         since_id = new_tweet_ids[0]
 
     tweets = __get_updated_tweets_list(new_tweet_ids, existing_tweets)
-    result = {
-        'since_id': since_id,
-        'tweets': tweets
-    }
 
-    return result
+    return since_id, tweets
 
 
 def __get_updated_tweets_list(new_tweets, existing_tweets):

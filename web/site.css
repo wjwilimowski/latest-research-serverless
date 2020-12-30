@@ -1,0 +1,8 @@
+.title {
+    margin: 20px auto 12px;
+    max-width: 550px; /*match twitter-tweet*/
+}
+
+.twitter-tweet {
+    margin: auto;
+}

@@ -8,27 +8,30 @@ import tempfile
 import json
 import config
 import tweets as t
+from botocore.errorfactory import ClientError
 
 
-def __get_temporary_file_from_s3(bucket, object_name) -> tempfile.NamedTemporaryFile:
-        object = bucket.Object(object_name)
-        tmp = tempfile.NamedTemporaryFile()
+def __get_data(bucket, object_name) -> dict:
+    s3obj = bucket.Object(object_name)
+    try:
+        s3obj.load()
+    except ClientError:
+        return {} # there is no data.json file yet
 
-        with open(tmp.name, 'wb') as f:
-            object.download_fileobj(f)
+    tmp = tempfile.NamedTemporaryFile()
+    with open(tmp.name, 'wb') as f:
+        s3obj.download_fileobj(f)
 
-        return tmp
+    with open(tmp.name, 'r') as f:
+        data = json.load(f)
+        return data
 
 
 def lambda_handler(event, context):
     s3 = boto3.resource("s3")
     bucket = s3.Bucket(config.BUCKET_NAME)
 
-    data_file = __get_temporary_file_from_s3(bucket, config.S3_PATH)
-
-    data = None
-    with open(data_file.name, 'r') as f:
-        data = json.load(f)
+    data = __get_data(bucket, config.S3_PATH)
 
     since_id = data.get('since_id')
     existing_tweets = data.get('tweets') or []

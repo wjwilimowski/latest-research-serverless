@@ -31,7 +31,8 @@ def __get_updated_tweets_list(new_tweets, existing_tweets):
 def __get_tweet_ids(since_id):
     tweet_ids = []
     current_next_token = None
-    while True:
+    while len(tweet_ids) <= config.MAX_TWEETS:
+
         part_tweet_ids, next_token = __get_part_tweet_ids(since_id, current_next_token)
         current_next_token = next_token
 
